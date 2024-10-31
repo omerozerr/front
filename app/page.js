@@ -1,95 +1,124 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+// app/page.js (for Next.js 13 with the app directory)
+// or pages/index.js (for Next.js 12 or earlier)
+import { useState } from "react";
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    const [url, setUrl] = useState("");
+    const [sentiments, setSentiments] = useState(null);
+    const [totalReviews, setTotalReviews] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    const analyzeSentiments = async (e, gameUrl = null) => {
+        if (e) {
+            e.preventDefault();
+        }
+        setLoading(true);
+        setError(null);
+        setSentiments(null);
+        setTotalReviews(null);
+
+        const analysisUrl = gameUrl || url;
+
+        try {
+            const response = await fetch(
+                `http://localhost:5000/analyze?url=${encodeURIComponent(
+                    analysisUrl
+                )}`
+            );
+            const data = await response.json();
+            if (response.ok) {
+                setSentiments(data.sentiments);
+                setTotalReviews(data.total_reviews_analyzed);
+            } else {
+                setError(data.error || "An error occurred");
+            }
+        } catch (err) {
+            setError("Failed to fetch data from the server");
+        }
+        setLoading(false);
+    };
+
+    return (
+        <div style={{ padding: "2rem", fontFamily: "Arial, sans-serif" }}>
+            <h1>Steam Game Sentiment Analysis</h1>
+            <form onSubmit={analyzeSentiments}>
+                <label htmlFor="url">Enter Steam Game URL:</label>
+                <br />
+                <input
+                    type="text"
+                    id="url"
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                    style={{
+                        width: "400px",
+                        padding: "0.5rem",
+                        marginTop: "0.5rem",
+                    }}
+                    placeholder="https://store.steampowered.com/app/252490/Rust/"
+                    required
+                />
+                <br />
+                <button
+                    type="submit"
+                    style={{
+                        marginTop: "1rem",
+                        padding: "0.5rem 1rem",
+                        fontSize: "1rem",
+                    }}
+                >
+                    Analyze
+                </button>
+            </form>
+
+            <h3>Or select a game:</h3>
+            <button
+                onClick={() =>
+                    analyzeSentiments(
+                        null,
+                        "https://store.steampowered.com/app/252490/Rust/"
+                    )
+                }
+                style={{
+                    marginRight: "1rem",
+                    padding: "0.5rem 1rem",
+                    fontSize: "1rem",
+                }}
+            >
+                Analyze Rust
+            </button>
+            <button
+                onClick={() =>
+                    analyzeSentiments(
+                        null,
+                        "https://store.steampowered.com/app/1091500/Cyberpunk_2077/"
+                    )
+                }
+                style={{ padding: "0.5rem 1rem", fontSize: "1rem" }}
+            >
+                Analyze Cyberpunk 2077
+            </button>
+
+            {loading && <p>Loading...</p>}
+
+            {error && (
+                <p style={{ color: "red", marginTop: "1rem" }}>
+                    Error: {error}
+                </p>
+            )}
+
+            {sentiments && (
+                <div style={{ marginTop: "2rem" }}>
+                    <h2>Sentiment Analysis Results</h2>
+                    <p>Total Reviews Analyzed: {totalReviews}</p>
+                    <ul>
+                        <li>Positive: {sentiments.Positive}</li>
+                        <li>Neutral: {sentiments.Neutral}</li>
+                        <li>Negative: {sentiments.Negative}</li>
+                    </ul>
+                </div>
+            )}
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }
