@@ -43,7 +43,78 @@ export default function SteamReview() {
 
     return (
         <div className={styles.pageContainer}>
-            <h1>Steam Game Sentiment Analysis</h1>
+            <h1>Steam Game Reviews Sentiment Analysis</h1>
+
+            {/* Description Section */}
+            <div className={styles.description}>
+                <h2>Purpose</h2>
+                <p>
+                    The Steam Game Reviews Sentiment Analysis component is
+                    designed to help users gain insights into the overall
+                    sentiment of player reviews for any game available on the
+                    Steam platform. By analyzing recent English-language
+                    reviews, the tool categorizes feedback into positive,
+                    neutral, and negative sentiments. This empowers gamers to
+                    make informed decisions before purchasing a game and
+                    provides developers with valuable feedback on player
+                    perceptions.
+                </p>
+
+                <h2>How to Use</h2>
+                <ul>
+                    <li>
+                        <strong>Enter a Steam Game URL:</strong>
+                        <p>
+                            Simply paste the URL of a Steam game into the input
+                            field provided. For example:
+                        </p>
+                        <ul>
+                            <li>
+                                <a
+                                    href="https://store.steampowered.com/app/252490/Rust/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    https://store.steampowered.com/app/252490/Rust/
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://store.steampowered.com/app/1091500/Cyberpunk_2077/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    https://store.steampowered.com/app/1091500/Cyberpunk_2077/
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Use Quick Access Buttons:</strong>
+                        <p>
+                            Click on the "Analyze Rust" or "Analyze Cyberpunk
+                            2077" buttons to automatically input the game's URL
+                            and initiate the analysis without manual entry.
+                        </p>
+                    </li>
+                    <li>
+                        <strong>View Sentiment Analysis Results:</strong>
+                        <p>
+                            After submitting, the tool fetches up to 200 recent
+                            English reviews for the selected game. It then
+                            processes these reviews using a sentiment analysis
+                            model to determine the number of positive, neutral,
+                            and negative comments. The results are displayed on
+                            the page, showing the sentiment distribution and the
+                            total number of reviews analyzed.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <br />
+            <br />
+
+            {/* Form Section */}
             <form onSubmit={analyzeSentiments}>
                 <label htmlFor="url">Enter Steam Game URL:</label>
                 <br />
@@ -105,6 +176,80 @@ export default function SteamReview() {
                     </ul>
                 </div>
             )}
+            <br />
+            <br />
+            <br />
+
+            {/* Technologies Used Section */}
+            <div className={styles.description}>
+                <h2>Technologies Used</h2>
+                <p>
+                    <strong>Frontend:</strong>
+                </p>
+                <ul>
+                    <li>
+                        <strong>Next.js:</strong> A React framework for building
+                        the user interface and handling client-side rendering.
+                    </li>
+                    <li>
+                        <strong>React Hooks (useState):</strong> For managing
+                        component state and updates.
+                    </li>
+                    <li>
+                        <strong>JavaScript Fetch API:</strong> To make
+                        asynchronous HTTP requests to the backend API.
+                    </li>
+                </ul>
+                <p>
+                    <strong>Backend:</strong>
+                </p>
+                <ul>
+                    <li>
+                        <strong>Flask:</strong> A lightweight Python web
+                        framework used to create the backend API that processes
+                        requests.
+                    </li>
+                    <li>
+                        <strong>Hugging Face Transformers:</strong> Utilized for
+                        performing sentiment analysis with pre-trained NLP
+                        models (
+                        <code>
+                            nlptown/bert-base-multilingual-uncased-sentiment
+                        </code>
+                        ).
+                    </li>
+                    <li>
+                        <strong>Flask-CORS:</strong> A Flask extension to handle
+                        Cross-Origin Resource Sharing (CORS), allowing the
+                        frontend and backend to communicate despite being on
+                        different ports.
+                    </li>
+                    <li>
+                        <strong>Python Libraries:</strong>
+                        <ul>
+                            <li>
+                                <strong>Requests:</strong> To fetch game reviews
+                                from the Steam Web API.
+                            </li>
+                            <li>
+                                <strong>Re (Regular Expressions):</strong> For
+                                parsing and extracting the Steam game app ID
+                                from URLs.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>
+                    <strong>APIs and Data Sources:</strong>
+                </p>
+                <ul>
+                    <li>
+                        <strong>Steam Web API:</strong> Provides access to game
+                        reviews and related data based on the app ID extracted
+                        from the game URL.
+                    </li>
+                </ul>
+            </div>
         </div>
     );
 }
