@@ -1,0 +1,36 @@
+/* app/styles/Layout.module.css */
+.nav {
+    background-color: #333;
+    padding: 1rem;
+    color: white;
+  }
+  
+  .logo {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .navLinks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  .navLinks li {
+    margin-left: 2rem;
+  }
+  
+  .navLinks li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .navLinks li a:hover {
+    text-decoration: underline;
+  }
+  
+  .mainContent {
+    padding: 2rem;
+  }
+  

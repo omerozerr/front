@@ -1,0 +1,15 @@
+/* app/styles/Home.module.css */
+.homeContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.homeContainer h1 {
+  font-size: 2.5rem;
+}
+
+.homeContainer p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
