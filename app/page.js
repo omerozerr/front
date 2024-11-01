@@ -6,7 +6,7 @@ export default function Home() {
         <div className={styles.homeContainer}>
             <h1>Welcome to My Portfolio</h1>
             <p>
-                Hi! I'm Ömer Özer. This is my portfolio where I showcase my
+                Hi! I&apos;m Ömer Özer. This is my portfolio where I showcase my
                 small NLP projects.
             </p>
             <p>
