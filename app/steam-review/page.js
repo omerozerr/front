@@ -29,7 +29,7 @@ export default function SteamReview() {
 
         try {
             const response = await fetch(
-                `http://127.0.0.1:5000/analyze?url=${encodeURIComponent(
+                `http://127.0.0.1:5500/analyze?url=${encodeURIComponent(
                     analysisUrl
                 )}`
             );

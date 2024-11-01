@@ -21,7 +21,9 @@ export default function RootLayout({ children }) {
                         <li>
                             <Link href="/steam-review">Steam Game Review</Link>
                         </li>
-                        {/* Add more links as you create more pages */}
+                        <li>
+                            <Link href="/text-summarizer">Text Summarizer</Link>
+                        </li>
                     </ul>
                 </nav>
                 <main className={styles.mainContent}>{children}</main>

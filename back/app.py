@@ -3,13 +3,19 @@ import requests
 import re
 from transformers import pipeline
 from flask_cors import CORS
+from newspaper import Article  # For extracting text from URLs
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Initialize the sentiment analysis pipeline
 # Using a model that can classify positive, neutral, and negative sentiments
-sentiment_analyzer = pipeline("sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment")
+sentiment_analyzer = pipeline(
+    "sentiment-analysis", model="nlptown/bert-base-multilingual-uncased-sentiment"
+)
+
+# Initialize the summarization pipeline
+summarizer = pipeline("summarization", model="t5-base", tokenizer="t5-base")
 
 def extract_app_id(url):
     """
@@ -99,5 +105,63 @@ def analyze():
     })
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
+
+@app.route('/summarize', methods=['POST'])
+def summarize():
+    data = request.get_json()
+    text = data.get('text')
+    url = data.get('url')
+
+    if not text and not url:
+        return jsonify({'error': 'No text or URL provided'}), 400
+
+    if url:
+        try:
+            article = Article(url)
+            article.download()
+            article.parse()
+            text = article.text
+            if not text:
+                return jsonify({'error': 'Failed to extract text from URL'}), 400
+        except Exception as e:
+            return jsonify({'error': 'Failed to extract text from URL'}), 400
+
+    if not text.strip():
+        return jsonify({'error': 'No text available for summarization'}), 400
+
+    # Tokenizer for counting tokens
+    tokenizer = summarizer.tokenizer
+    inputs = tokenizer.encode(text, return_tensors='pt')
+    input_length = inputs.shape[1]
+
+    # Set max_length and min_length dynamically
+    max_length = 200
+    min_length = 50
+
+    # Ensure lengths are within reasonable bounds
+    max_length = max(20, min(max_length, 512))  # At least 20 tokens, max 512
+    min_length = max(10, min(min_length, max_length - 10))  # At least 10 tokens
+
+    # Handle long texts by splitting into chunks
+    max_chunk_length = 1024  # Adjust based on model's max input length
+    text_chunks = [text[i:i+max_chunk_length] for i in range(0, len(text), max_chunk_length)]
+    summaries = []
+
+    try:
+        for chunk in text_chunks:
+            summary = summarizer(
+                chunk,
+                max_length=max_length,
+                min_length=min_length,
+                do_sample=False
+            )
+            summaries.append(summary[0]['summary_text'])
+        combined_summary = ' '.join(summaries)
+        response = jsonify({'summary': combined_summary})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5500)
