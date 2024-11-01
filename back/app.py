@@ -86,11 +86,17 @@ def analyze():
     if len(reviews) < 20:
         return jsonify({'error': 'Not enough reviews to perform analysis'}), 400
     sentiments = {'Positive': 0, 'Neutral': 0, 'Negative': 0}
+    reviews_with_sentiments = []
     for review in reviews:
         result = sentiment_analyzer(review[:512])[0]  # Truncate to 512 tokens if necessary
         sentiment = map_label_to_sentiment(result['label'])
         sentiments[sentiment] += 1
-    response = jsonify({'sentiments': sentiments, 'total_reviews_analyzed': len(reviews)})
+        reviews_with_sentiments.append({'text': review, 'sentiment': sentiment})
+    response = jsonify({
+        'sentiments': sentiments,
+        'total_reviews_analyzed': len(reviews),
+        'reviews': reviews_with_sentiments  # Return the reviews with sentiments
+    })
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 if __name__ == '__main__':

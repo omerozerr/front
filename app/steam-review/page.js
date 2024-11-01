@@ -6,10 +6,13 @@ import styles from "../styles/SteamReview.module.css";
 
 export default function SteamReview() {
     const [url, setUrl] = useState("");
+    const [reviews, setReviews] = useState([]); // Store all reviews with sentiments
     const [sentiments, setSentiments] = useState(null);
     const [totalReviews, setTotalReviews] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const [randomComment, setRandomComment] = useState(""); // For displaying random comment
 
     const analyzeSentiments = async (e, gameUrl = null) => {
         if (e) {
@@ -19,6 +22,8 @@ export default function SteamReview() {
         setError(null);
         setSentiments(null);
         setTotalReviews(null);
+        setRandomComment(""); // Reset random comment
+        setReviews([]); // Reset reviews
 
         const analysisUrl = gameUrl || url;
 
@@ -32,6 +37,7 @@ export default function SteamReview() {
             if (response.ok) {
                 setSentiments(data.sentiments);
                 setTotalReviews(data.total_reviews_analyzed);
+                setReviews(data.reviews); // Store reviews with sentiments
             } else {
                 setError(data.error || "An error occurred");
             }
@@ -39,6 +45,27 @@ export default function SteamReview() {
             setError("Failed to fetch data from the server");
         }
         setLoading(false);
+    };
+
+    // Function to handle showing random comment
+    const showRandomComment = (sentimentType) => {
+        if (reviews && reviews.length > 0) {
+            const filteredReviews = reviews.filter(
+                (review) => review.sentiment === sentimentType
+            );
+            if (filteredReviews.length > 0) {
+                const randomIndex = Math.floor(
+                    Math.random() * filteredReviews.length
+                );
+                setRandomComment(filteredReviews[randomIndex].text);
+            } else {
+                setRandomComment(
+                    `No ${sentimentType.toLowerCase()} comments available.`
+                );
+            }
+        } else {
+            setRandomComment("No reviews analyzed yet.");
+        }
     };
 
     return (
@@ -175,11 +202,38 @@ export default function SteamReview() {
                         <li>Neutral: {sentiments.Neutral}</li>
                         <li>Negative: {sentiments.Negative}</li>
                     </ul>
+
+                    {/* Buttons to Show Random Comments */}
+                    <div style={{ marginTop: "1rem" }}>
+                        <button
+                            onClick={() => showRandomComment("Positive")}
+                            className={styles.button}
+                        >
+                            Show Random Positive Comment
+                        </button>
+                        <button
+                            onClick={() => showRandomComment("Neutral")}
+                            className={styles.button}
+                        >
+                            Show Random Neutral Comment
+                        </button>
+                        <button
+                            onClick={() => showRandomComment("Negative")}
+                            className={styles.button}
+                        >
+                            Show Random Negative Comment
+                        </button>
+                    </div>
+
+                    {/* Display Random Comment */}
+                    {randomComment && (
+                        <div style={{ marginTop: "1rem" }}>
+                            <h3>Random Comment:</h3>
+                            <p>"{randomComment}"</p>
+                        </div>
+                    )}
                 </div>
             )}
-            <br />
-            <br />
-            <br />
 
             {/* Technologies Used Section */}
             <div className={styles.description}>
