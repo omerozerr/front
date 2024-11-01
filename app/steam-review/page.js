@@ -93,8 +93,8 @@ export default function SteamReview() {
                         <strong>Use Quick Access Buttons:</strong>
                         <p>
                             Click on the "Analyze Rust" or "Analyze Cyberpunk
-                            2077" buttons to automatically input the game's URL
-                            and initiate the analysis without manual entry.
+                            2077" buttons to automatically input the game&apos;s
+                            URL and initiate the analysis without manual entry.
                         </p>
                     </li>
                     <li>
