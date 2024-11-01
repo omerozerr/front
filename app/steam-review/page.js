@@ -229,7 +229,7 @@ export default function SteamReview() {
                     {randomComment && (
                         <div style={{ marginTop: "1rem" }}>
                             <h3>Random Comment:</h3>
-                            <p>"{randomComment}"</p>
+                            <p>&quot;{randomComment}&quot;</p>
                         </div>
                     )}
                 </div>
