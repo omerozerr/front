@@ -77,6 +77,48 @@ export default function TextSummarizer() {
         <div className={styles.container}>
             <h1>Text Summarization Tool</h1>
 
+            {/* Description Section */}
+            <div className={styles.description}>
+                <h2>Purpose</h2>
+                <p>
+                    The Text Summarization Tool is designed to help users
+                    quickly obtain concise summaries of long pieces of text or
+                    articles from the web. Whether you&apos;re trying to grasp
+                    the main points of a lengthy article, research paper, or any
+                    substantial document, this tool leverages T5 model from
+                    Hugging Face
+                </p>
+
+                <h2>How to Use</h2>
+                <ul>
+                    <li>
+                        <strong>Summarize Text:</strong>
+                        <p>
+                            Enter or paste the text you wish to summarize into
+                            the provided text area. Click the &quot;Summarize
+                            Text&quot; button to generate a concise summary of
+                            the input text.
+                        </p>
+                    </li>
+                    <li>
+                        <strong>Summarize Article from URL:</strong>
+                        <p>
+                            Input the URL of an article you want to summarize
+                            into the URL input field. Click the &quot;Summarize
+                            URL&quot; button, and the tool will extract the main
+                            content from the webpage and provide a summarized
+                            version.
+                        </p>
+                        <p>
+                            <em>Note:</em> This works best with direct links to
+                            news articles or blog posts. Some websites may not
+                            be supported due to content restrictions or
+                            technical limitations.
+                        </p>
+                    </li>
+                </ul>
+            </div>
+
             {/* Text Input Section */}
             <div className={styles.inputSection}>
                 <h2>Summarize Text</h2>
@@ -119,6 +161,49 @@ export default function TextSummarizer() {
                     <p>{summary}</p>
                 </div>
             )}
+
+            {/* Technologies Used Section */}
+            <div className={styles.description}>
+                <h2>Technologies Used</h2>
+                <p>
+                    <strong>Frontend:</strong>
+                </p>
+                <ul>
+                    <li>
+                        <strong>Next.js:</strong> A React framework for building
+                        the user interface and handling client-side rendering.
+                    </li>
+                </ul>
+                <p>
+                    <strong>Backend:</strong>
+                </p>
+                <ul>
+                    <li>
+                        <strong>Flask:</strong> A lightweight Python web
+                        framework used to create the backend API that processes
+                        requests.
+                    </li>
+                    <li>
+                        <strong>Hugging Face Transformers:</strong> Utilized for
+                        performing text summarization with pre-trained NLP
+                        models (<code>t5-base</code>).
+                    </li>
+
+                    <li>
+                        <strong>Python Libraries:</strong>
+                        <ul>
+                            <li>
+                                <strong>Newspaper3k:</strong> To extract article
+                                text from URLs for summarization.
+                            </li>
+                            <li>
+                                <strong>Requests:</strong> To handle HTTP
+                                requests within the backend.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     );
 }

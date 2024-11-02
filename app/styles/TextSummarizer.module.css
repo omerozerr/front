@@ -41,3 +41,16 @@
 .summaryContainer {
   margin-top: 2rem;
 }
+
+.description {
+  margin-bottom: 2rem;
+}
+
+.description h2 {
+  margin-top: 1rem;
+}
+
+.description p,
+.description ul {
+  margin-left: 1rem;
+}
