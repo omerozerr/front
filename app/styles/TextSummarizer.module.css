@@ -14,6 +14,11 @@
   font-size: 1rem;
   padding: 0.5rem;
   margin-bottom: 1rem;
+  background-color: white;
+  border: 2px solid #f07731; /* Orange border */
+  border-radius: 4px;
+  outline: none;
+  color: #f07731;
 }
 
 .input {
@@ -21,11 +26,26 @@
   font-size: 1rem;
   padding: 0.5rem;
   margin-bottom: 1rem;
+  background-color: white;
+  border: 2px solid #f07731; /* Orange border */
+  border-radius: 4px;
+  outline: none;
+  color: #f07731;
 }
 
 .button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
+  background-color: #f07731;
+  border: 2px solid #f07731; /* Orange border */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  color: white
+}
+
+.button:hover {
+  background-color: #f48e54;
 }
 
 .or {

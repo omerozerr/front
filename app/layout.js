@@ -13,7 +13,6 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body>
                 <nav className={styles.nav}>
-                    <h2 className={styles.logo}>My Portfolio</h2>
                     <ul className={styles.navLinks}>
                         <li>
                             <Link href="/">Home</Link>

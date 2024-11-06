@@ -234,7 +234,7 @@ export default function SteamReview() {
                     )}
                 </div>
             )}
-
+            <br />
             {/* Technologies Used Section */}
             <div className={styles.description}>
                 <h2>Technologies Used</h2>

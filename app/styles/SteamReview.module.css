@@ -1,20 +1,34 @@
 /* app/styles/SteamReview.module.css */
 .pageContainer {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .input {
-    width: 100%;
-    max-width: 400px;
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  
-  .button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    margin-right: 1rem;
-  }
-  
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  background-color: white;
+  border: 4px solid #f07731; /* Orange border */
+  border-radius: 8px;
+  outline: none;
+  color: #f07731;
+}
+
+.button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  margin-right: 1rem;
+  background-color: #f07731;
+  border: 2px solid white; /* Orange border */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  color:white
+}
+
+.button:hover {
+  background-color: #f48e54;
+}

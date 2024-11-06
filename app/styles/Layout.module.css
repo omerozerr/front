@@ -1,8 +1,10 @@
 /* app/styles/Layout.module.css */
 .nav {
-    background-color: #333;
+    background-color: #f07731;
     padding: 1rem;
     color: white;
+    border-bottom: 3px solid rgba(255, 255, 255, 1); /* Soft white line */
+
   }
   
   .logo {
